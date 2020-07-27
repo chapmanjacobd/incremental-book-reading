@@ -35,7 +35,7 @@ There are, however, current examples of psychogeographers in action. Run Dem Cre
 const paragraphs = text.replace("…", "").replace(/’|‘/, "").split(/\.\n+/);
 
 paragraphs.map((p) => {
-  const sentences = tokenizer.sentences(p, {});
+  const sentences = tokenizer.sentences(p, { sanitize: true });
   sentences.map((s, i) => {
     const phrase = s.split(/, argues.*/)[0];
     if (i == 0) console.log(phrase);
