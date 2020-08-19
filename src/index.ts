@@ -1,13 +1,21 @@
+import { getItem, init, setItem } from "node-persist";
+import { getListOfFiles } from "./io";
 import { schedule } from "./schedule";
-import * as persist from "node-persist";
+import { Book } from "./types";
 
-persist.init()
-persist.readDirectory('');
+const main = async () => {
+  await init({ dir: "book-status" });
 
+  const past = await getItem("bookList");
+  const future = getListOfFiles("./books/**/*.txt");
+  const present = future.filter((y) => !past.find((x) => y.filename === x.filename));
 
-setItem('bookList', { ... });
+  const bookList: Book[] = [...future, ...present];
 
-const main = async () => schedule(storage.getItem('bookList'));
+  await setItem("bookList", bookList);
+
+  schedule(bookList);
+};
 if (!module.parent)
   main().catch((err) => {
     console.error(err.message);

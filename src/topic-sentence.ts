@@ -36,7 +36,7 @@ const paragraphs = text.replace("…", "").replace(/’|‘/, "").split(/\.\n+/)
 
 paragraphs.map((p) => {
   const sentences = tokenizer.sentences(p, { sanitize: true });
-  sentences.map((s, i) => {
+  sentences.map((s: string, i: number) => {
     const phrase = s.split(/, argues.*/)[0];
     if (i == 0) console.log(phrase);
     // if (i < 4) console.log(" \t".repeat(i), phrase);
