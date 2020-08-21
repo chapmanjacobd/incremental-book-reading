@@ -29,3 +29,8 @@ export function nextCron(emailsPerMonth: number) {
 export function emailDays(emailsPerMonth: number): number[] {
   return arrayResize(range(1, 31), emailsPerMonth);
 }
+
+export const handleErr = (err) => {
+  console.error(err.message);
+  process.exit(1);
+};
