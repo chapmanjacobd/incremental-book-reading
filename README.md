@@ -31,7 +31,7 @@ export const env = {
 
 You will need your own mail transport :/
 
-You _can_ use Gmail but I prefer to use a local SMTP server.
+You _can_ use Gmail but I prefer to use a local SMTP server. Get more info here: https://nodemailer.com/usage/using-gmail/
 
 
 ### step 3b) optional. configure how often you get emails, how many words per email in schedule.ts line 15
