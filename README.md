@@ -9,9 +9,7 @@ Send book passages to yourself eight times a week
 mv -iv samplebooks/ books/
 ```
 
-#### alternate step 2-3) Hate email
-
-If you don't like emails then you can just do this:
+#### alternate step 2-3) If you don't like emails then you can just do this:
 
 ```
 ts-node src/content.ts
