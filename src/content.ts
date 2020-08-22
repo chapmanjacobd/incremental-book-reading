@@ -36,7 +36,7 @@ if (!module.parent)
   (async () => {
     await initializeBooks()
       .then((b) => {
-        console.log(getText(b, 4));
+        console.log(getText(b, 160));
       })
       .catch(handleErr);
   })();

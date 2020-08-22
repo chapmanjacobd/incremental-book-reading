@@ -10,13 +10,11 @@ export function getListOfFiles(folder: string) {
   return glob.sync(folder).map(defaultBookObject);
 }
 
-export async function initializeBooks() {
+export async function initializeBooks(): Promise<Book[]> {
   await cart.init({ dir: "book-status" });
 
   const past: Book[] = await cart.getItem("bookList");
-  console.log(past);
-  const future = getListOfFiles("./books/*.txt");
-  const present = past ? future.filter((y) => !past.find((x) => y.filename === x.filename)) : [];
+  const future: Book[] = getListOfFiles("./books/*.txt");
 
   const bookList = future.map((book) => {
     if (past.some((b) => b.filename === book.filename))
@@ -28,3 +26,8 @@ export async function initializeBooks() {
 
   return bookList;
 }
+
+if (!module.parent)
+  (async () => {
+    await initializeBooks();
+  })();
