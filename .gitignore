@@ -1,5 +1,6 @@
 book-status/
 books/
+src/env.ts
 
 # Logs
 logs
