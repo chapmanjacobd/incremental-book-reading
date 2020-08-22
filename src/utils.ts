@@ -30,7 +30,7 @@ export function emailDays(emailsPerMonth: number): number[] {
   return arrayResize(range(1, 31), emailsPerMonth);
 }
 
-export const handleErr = (err) => {
-  console.error(err.message);
+export const err = (err) => {
+  console.error(err);
   process.exit(1);
 };

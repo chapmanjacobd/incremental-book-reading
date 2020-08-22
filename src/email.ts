@@ -1,11 +1,19 @@
-const nodemailer = require("nodemailer");
+import { createTransport } from "nodemailer";
+import { err } from "./utils";
 
-export const mail = async ({ body, title }) => {
+if (!module.parent)
+  (async () => {
+    await mail({ title: "test", body: "this is a test LMAO" }).catch(err);
+  })();
+
+export async function mail({ body, title }) {
   // Create a SMTP transporter object
-  let transporter = nodemailer.createTransport({
-    sendmail: true,
-    // newline: "windows", // unix is default
-    logger: false,
+  let transporter = createTransport({
+    port: 25,
+    host: "localhost",
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
 
   // Message object
@@ -29,4 +37,4 @@ export const mail = async ({ body, title }) => {
 
   let info = await transporter.sendMail(message);
   console.log("Message sent successfully as %s", info.messageId);
-};
+}

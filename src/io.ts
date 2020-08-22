@@ -1,5 +1,5 @@
 import { glob } from "glob";
-import cart from "node-persist";
+import shelf from "node-persist";
 import { Book } from "./types";
 
 const defaultBookObject = (filename: string) => {
@@ -11,26 +11,26 @@ export function getListOfFiles(folder: string) {
 }
 
 export async function initializeBooks(): Promise<Book[]> {
-  await cart.init({ dir: "book-status" });
+  await shelf.init({ dir: "book-status" });
 
-  const past: Book[] = await cart.getItem("bookList");
-  const future: Book[] = getListOfFiles("./books/**/*.txt");
+  const cart: Book[] = await shelf.getItem("bookList");
+  const booksDir: Book[] = getListOfFiles("./books/**/*.txt");
 
-  // scan for new books and add them to the cart
+  // scan for new books and add them to the shelf
   // also removes deleted books ! cool. my implementation is accidentally working perfectly !!
-  const bookList = future.map((book) => {
-    if (past.some((b) => b.filename === book.filename))
-      return past.find((b) => b.filename === book.filename);
+  const bookList = booksDir.map((book) => {
+    if (cart && cart.some((b) => b.filename === book.filename))
+      return cart.find((b) => b.filename === book.filename);
     return book;
   });
 
   // MOVE ZIG!!!!!!!!!!!!!!111111111111
-  await cart.setItem("bookList", bookList);
+  await shelf.setItem("bookList", bookList);
 
   return bookList;
 }
 
 if (!module.parent)
   (async () => {
-    await initializeBooks();
+    console.log(await initializeBooks());
   })();

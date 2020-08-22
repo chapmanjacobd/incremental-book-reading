@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { setItem } from "node-persist";
 import { initializeBooks } from "./io";
 import { Book } from "./types";
-import { handleErr } from "./utils";
+import { err } from "./utils";
 
 export function getText(shelf: Book[], wordsPerEmail: number) {
   let currentBook = shelf.filter((x) => !x.finished)[0];
@@ -37,7 +37,7 @@ if (!module.parent)
   (async () => {
     await initializeBooks()
       .then((b) => {
-        console.log(getText(b, 160));
+        console.log(getText(b, 40));
       })
-      .catch(handleErr);
+      .catch(err);
   })();

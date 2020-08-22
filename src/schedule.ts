@@ -3,22 +3,25 @@ import { getText } from "./content";
 import { mail } from "./email";
 import { initializeBooks } from "./io";
 import { Book } from "./types";
-import { handleErr, nextCron } from "./utils";
+import { err, nextCron } from "./utils";
+
+// User Config:
+// 30 emailsPerMonth == 1 per day
+//  4 emailsPerMonth == 1 per week
+
+if (!module.parent)
+  (async () => {
+    await initializeBooks()
+      .then(async (b) => await schedule(b, { wordsPerEmail: 500, emailsPerMonth: 10 }))
+      .catch(err);
+  })();
 
 interface ContentConfig {
   wordsPerEmail?: number;
   emailsPerMonth?: number;
 }
 
-// 30 emailsPerMonth == 1 per day
-// 15 emailsPerMonth == every other day
-//  8 emailsPerMonth == 2 per week
-//  4 emailsPerMonth == 1 per week
-
-export async function schedule(bookList: Book[], userConfig?: ContentConfig) {
-  const opts = { wordsPerEmail: 400, emailsPerMonth: 8 };
-  Object.assign(opts, userConfig);
-
+export async function schedule(bookList: Book[], opts: ContentConfig) {
   await emailAndScheduleNext();
 
   async function emailAndScheduleNext() {
@@ -27,10 +30,3 @@ export async function schedule(bookList: Book[], userConfig?: ContentConfig) {
     cronSchedule(nextCron(opts.emailsPerMonth), async () => emailAndScheduleNext);
   }
 }
-
-if (!module.parent)
-  (async () => {
-    await initializeBooks()
-      .then(async (b) => await schedule(b))
-      .catch(handleErr);
-  })();
