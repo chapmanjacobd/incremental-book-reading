@@ -17,13 +17,18 @@ export function getText(bookList: Book[], wordsPerEmail: number) {
   nextBook.progress = endIndex;
   nextBook.finished = endIndex >= nextBookContents.length;
 
-  setItem("bookList", [...bookList, nextBook]);
+  const updatedBookList = bookList.map((book) => {
+    if (book.filename === nextBook.filename) return nextBook;
+    return book;
+  });
+
+  setItem("bookList", updatedBookList);
 
   const percent = ((endIndex / nextBookContents.length) * 100).toFixed(0);
 
   return {
-    title: `${nextBook.filename} (${percent}%)`,
-    body: nextEmailWords,
+    title: `${nextBook.filename.split("/").pop()} (${percent}%)`,
+    body: nextEmailWords.join(" "),
   };
 }
 
@@ -31,7 +36,7 @@ if (!module.parent)
   (async () => {
     await initializeBooks()
       .then((b) => {
-        console.log(getText(b, 400));
+        console.log(getText(b, 4));
       })
       .catch(handleErr);
   })();

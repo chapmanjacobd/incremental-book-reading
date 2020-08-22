@@ -1,5 +1,5 @@
 import { glob } from "glob";
-import { getItem, init, setItem } from "node-persist";
+import cart from "node-persist";
 import { Book } from "./types";
 
 const defaultBookObject = (filename: string) => {
@@ -11,15 +11,20 @@ export function getListOfFiles(folder: string) {
 }
 
 export async function initializeBooks() {
-  await init({ dir: "book-status" });
+  await cart.init({ dir: "book-status" });
 
-  const past = await getItem("bookList");
-  const future = getListOfFiles("./books/**/*.txt");
-  const present = future.filter((y) => !past.find((x) => y.filename === x.filename));
+  const past: Book[] = await cart.getItem("bookList");
+  console.log(past);
+  const future = getListOfFiles("./books/*.txt");
+  const present = past ? future.filter((y) => !past.find((x) => y.filename === x.filename)) : [];
 
-  const bookList: Book[] = [...future, ...present];
+  const bookList = future.map((book) => {
+    if (past.some((b) => b.filename === book.filename))
+      return past.find((b) => b.filename === book.filename);
+    return book;
+  });
 
-  await setItem("bookList", bookList);
+  await cart.setItem("bookList", bookList);
 
   return bookList;
 }
