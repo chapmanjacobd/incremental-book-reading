@@ -15,7 +15,7 @@ mv -iv samplebooks/ books/
 ts-node src/content.ts
 ```
 
-It works surprisingly fast for ad-hoc use. A few seconds on 80,000 txt files (most of it is typescript transpiling time. If you used this often then just compile it to js and use with node instead of ts-node).
+It works surprisingly fast for ad-hoc use. A few seconds on 80,000 txt files (most of it is typescript transpiling time. If you use this often then just compile it to js and use with node instead of ts-node).
 
 ### step 2) Configure email address
 
