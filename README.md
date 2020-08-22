@@ -9,6 +9,8 @@ Send book passages to yourself eight times a week
 mv -iv samplebooks/ books/
 ```
 
+### step alt2-3) Hate email
+
 If you don't like emails then you can just do this:
 
 ```
