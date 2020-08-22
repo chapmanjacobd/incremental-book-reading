@@ -4,30 +4,31 @@ import { initializeBooks } from "./io";
 import { Book } from "./types";
 import { handleErr } from "./utils";
 
-export function getText(bookList: Book[], wordsPerEmail: number) {
-  let nextBook = bookList.filter((x) => !x.finished)[0];
+export function getText(shelf: Book[], wordsPerEmail: number) {
+  let currentBook = shelf.filter((x) => !x.finished)[0];
 
-  const nextBookContents = readFileSync(nextBook.filename, { encoding: "utf-8" }).split(" ");
+  const bookTxt = readFileSync(currentBook.filename, { encoding: "utf-8" }).split(" ");
+  const endIndex = currentBook.progress + wordsPerEmail;
 
-  const startIndex = 0 + nextBook.progress;
-  const endIndex = nextBook.progress + wordsPerEmail;
+  const nextEmailWords = bookTxt.slice(0 + currentBook.progress, endIndex);
 
-  const nextEmailWords = nextBookContents.slice(startIndex, endIndex);
+  currentBook.progress = endIndex;
+  currentBook.finished = endIndex >= bookTxt.length;
 
-  nextBook.progress = endIndex;
-  nextBook.finished = endIndex >= nextBookContents.length;
+  // update reading progress
+  setItem(
+    "bookList",
+    shelf.map((book) => {
+      if (book.filename === currentBook.filename) return currentBook;
+      return book;
+    })
+  );
 
-  const updatedBookList = bookList.map((book) => {
-    if (book.filename === nextBook.filename) return nextBook;
-    return book;
-  });
-
-  setItem("bookList", updatedBookList);
-
-  const percent = ((endIndex / nextBookContents.length) * 100).toFixed(0);
+  const percent = ((endIndex / bookTxt.length) * 100).toFixed(0);
+  const basename = currentBook.filename.split("/").pop();
 
   return {
-    title: `${nextBook.filename.split("/").pop()} (${percent}%)`,
+    title: `${basename} (${percent}%)`,
     body: nextEmailWords.join(" "),
   };
 }
