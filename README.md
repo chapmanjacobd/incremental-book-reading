@@ -1,6 +1,8 @@
 # incremental-book-reading
 Send book passages to yourself eight times a week
 
+![](misc/teaser.png)
+
 ## Quickstart
 
 ### step 1) Add books
@@ -9,7 +11,7 @@ Send book passages to yourself eight times a week
 mv -iv samplebooks/ books/
 ```
 
-#### alternate step 2-3) If you don't like emails then you can just do this:
+#### alternative to step 2-4) If you don't like emails then you can just do this:
 
 ```
 ts-node src/content.ts
@@ -34,9 +36,23 @@ You will need your own mail transport :/
 You _can_ use Gmail but I prefer to use a local SMTP server. Get more info here: https://nodemailer.com/usage/using-gmail/
 
 
-### step 3b) optional. configure how often you get emails, how many words per email in schedule.ts line 15
+### step 3b) Configure settings (optional)
 
-Run it like this (and keep it running 24/7 so that it can send the emails, duh):
+Configure how often you get emails, how many words per email:
+
+look in `src/schedule.ts` line 15
+
+### step 4) Install deps and run
+
+Install deps:
+
+```
+yarn
+# or npm install
+```
+
+Run it like this (and keep it running 24/7 so that it can send the emails)
+
 ```
 ts-node src/schedule.ts
 ```
