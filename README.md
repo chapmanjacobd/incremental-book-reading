@@ -36,9 +36,7 @@ You will need your own mail transport :/
 You _can_ use Gmail but I prefer to use a local SMTP server. Get more info here: https://nodemailer.com/usage/using-gmail/
 
 
-### 3b. optional) Configure settings
-
-Configure how often you get emails, how many words per email:
+### 3b. optional) Configure how often you get emails, how many words per email:
 
 look in `src/schedule.ts` line 15
 
