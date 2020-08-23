@@ -1,7 +1,7 @@
 # incremental-book-reading
 Send book passages to yourself eight times a week
 
-![](misc/teaser.png)
+![](misc/teaser2.png)
 
 ## Quickstart
 
