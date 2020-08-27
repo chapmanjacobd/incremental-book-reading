@@ -16,15 +16,10 @@ export async function initializeBooks(): Promise<Book[]> {
   const cart: Book[] = await shelf.getItem("bookList");
   const booksDir: Book[] = getListOfFiles("./books/**/*.txt");
 
-  // scan for new books and add them to the shelf
-  // also removes deleted books ! cool. my implementation is accidentally working perfectly !!
-  const bookList = booksDir.map((book) => {
-    if (cart && cart.some((b) => b.filename === book.filename))
-      return cart.find((b) => b.filename === book.filename);
-    return book;
-  });
+  const bookList = booksDir.map(
+    (newBook) => cart.find((known) => newBook.filename === known.filename) ?? newBook
+  );
 
-  // MOVE ZIG!!!!!!!!!!!!!!111111111111
   await shelf.setItem("bookList", bookList);
 
   return bookList;
