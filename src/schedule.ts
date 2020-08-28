@@ -27,6 +27,6 @@ export async function schedule(bookList: Book[], opts: ContentConfig) {
   async function emailAndScheduleNext() {
     await mail(getText(bookList, opts.wordsPerEmail));
 
-    cronSchedule(nextCron(opts.emailsPerMonth), async () => emailAndScheduleNext);
+    cronSchedule(nextCron(opts.emailsPerMonth), async () => await emailAndScheduleNext());
   }
 }
