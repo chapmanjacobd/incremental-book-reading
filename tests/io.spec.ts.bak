@@ -1,4 +1,4 @@
-import { getListOfFiles } from "./io";
+import { getListOfFiles } from "../src/io";
 
 describe("lists files", function () {
   it("add", function () {

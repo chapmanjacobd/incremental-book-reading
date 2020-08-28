@@ -17,7 +17,7 @@ export async function initializeBooks(): Promise<Book[]> {
   const booksDir: Book[] = getListOfFiles("./books/**/*.txt");
 
   const bookList = booksDir.map(
-    (newBook) => cart.find((known) => newBook.filename === known.filename) ?? newBook
+    (newBook) => cart?.find((known) => newBook.filename === known.filename) ?? newBook
   );
 
   await shelf.setItem("bookList", bookList);

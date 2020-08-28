@@ -21,7 +21,8 @@ function arrayResize(array: any[], integer: number) {
 export function nextCron(emailsPerMonth: number) {
   const days = emailDays(emailsPerMonth);
 
-  const nextDay = days.filter((x) => x >= new Date().getDate() + 1)[0];
+  // if today is beyond the last day of the month then look ahead into the next month
+  const nextDay = days.filter((x) => x >= new Date().getDate() + 1)[0] ?? days[0];
 
   return `* * ${nextDay} * *`;
 }
