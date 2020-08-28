@@ -63,3 +63,21 @@ You can test email like this:
 ts-node src/email.ts
 ```
 
+
+## Files
+
+You should convert all your files to plain text.
+
+1) Convert unusual text (be careful when using this on non-english languages)
+
+```
+for file in (fd -tf -eTXT pdf --changed-within 1day)
+    iconv -t UTF-8//IGNORE "$file" | sponge "$file"
+end
+```
+
+2) Remove Windows line breaks
+
+```
+sed -i 's/\r$//'
+```
