@@ -12,12 +12,12 @@ import { err, nextCron } from "./utils";
 if (!module.parent)
   (async () => {
     await initializeBooks()
-      .then(async (b) => await schedule(b, { wordsPerEmail: 500, emailsPerMonth: 10 }))
+      .then(async (b) => await schedule(b, { minParagraphsPerEmail: 5, emailsPerMonth: 15 }))
       .catch(err);
   })();
 
 interface ContentConfig {
-  wordsPerEmail?: number;
+  minParagraphsPerEmail?: number;
   emailsPerMonth?: number;
 }
 
@@ -25,7 +25,7 @@ export async function schedule(bookList: Book[], opts: ContentConfig) {
   await emailAndScheduleNext();
 
   async function emailAndScheduleNext() {
-    await mail(getText(bookList, opts.wordsPerEmail));
+    await mail(getText(bookList, opts.minParagraphsPerEmail));
 
     cronSchedule(nextCron(opts.emailsPerMonth), async () => await emailAndScheduleNext());
   }
