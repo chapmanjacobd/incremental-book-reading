@@ -79,5 +79,7 @@ end
 2) Remove Windows line breaks
 
 ```
-sed -i 's/\r$//'
+for file in (fd -tf -eTXT)
+    sed -i 's/\r$//' "./$file"
+end
 ```
